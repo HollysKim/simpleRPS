@@ -5,9 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Rock, Paper, Scissors</h1>
+    <div id="container" class="container">
+        <h1 id="title">A game of Rock, Paper, Scissors</h1>
+        <div class="btn-container">
+            <input type="image" class="move disabled" id="rock" src="https://omergronich.github.io/rock-paper-scissors/img/rock.png">
+            <input type="image" class="move disabled" id="paper" src="https://omergronich.github.io/rock-paper-scissors/img/paper.png"></input>
+            <input type="image" class="move disabled" id="scissors" src="https://omergronich.github.io/rock-paper-scissors/img/scissors.png"></input>
+        </div>
+        <h1 id="scoreText">0-0</h1>
+        <h1 id="roundText">Click a move to start the game!</h1>
+        <button class="restart" id="restart">Restart</button>
+    </div>
 </body>
 </html>

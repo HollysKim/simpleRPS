@@ -1,45 +1,96 @@
+let userScore = 0;
+let compScore = 0;
+const userWin = 'You won!'
+const compWin = 'You lose!' 
+const tied = 'You tied!'
+
 function getComputerChoice() {
-    const moves = ['Rock', 'Paper', 'Scissors'];
+    const hands = ['Rock', 'Paper', 'Scissors'];
     let randomNum = Math.floor(Math.random()*3);
-    return(moves[randomNum]);
+    return(hands[randomNum]);
 }
 
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toUpperCase();
     computerSelection = computerSelection.toUpperCase();
     if(playerSelection === 'ROCK' && computerSelection === 'SCISSORS') {
-        return('You win! Rock beats scissors.');
+        userScore++;
+        scoreText.textContent = `${userScore} - ${compScore}`;
+        return(userWin);
     }
     else if(playerSelection === 'ROCK' && computerSelection === 'PAPER') {
-        return('You lose! Paper beats rock.');
+        compScore++;
+        scoreText.textContent = `${userScore} - ${compScore}`;
+        return(compWin);
     }
     else if(playerSelection === 'PAPER' && computerSelection === 'ROCK') {
-        return('You win! Paper beats rock.');
+        userScore++;
+        scoreText.textContent = `${userScore} - ${compScore}`;
+        return(userWin);
     }
     else if(playerSelection === 'PAPER' && computerSelection === 'SCISSORS') {
-        return('You lose! Scissors beats paper.');
+        compScore++;
+        scoreText.textContent = `${userScore} - ${compScore}`;
+        return(compWin);
     }
     else if(playerSelection === 'SCISSORS' && computerSelection === 'PAPER') {
-        return('You win! Scissors beats paper.');
+        userScore++;
+        scoreText.textContent = `${userScore} - ${compScore}`;
+        return(userWin);
     }
     else if(playerSelection === 'SCISSORS' && computerSelection === 'ROCK') {
-        return('You lose! Rock beats scissors.');
+        compScore++;
+        scoreText.textContent = `${userScore} - ${compScore}`;
+        return(compWin);
     }
     else if(playerSelection === computerSelection){
-        return(`You tied! ${playerSelection} and ${computerSelection} tie.`)
+        return(tied);
     }
     else {
         return(`${playerSelection} is not a valid input.`)
     }
 }
 
-function game() {
-    for(let i = 0; i < 5; i++) {
-        let player = prompt(`Round ${i+1}! Enter a move.`)
-        let computer = getComputerChoice();
-        console.log(playRound(player, computer));
+function endGame() {
+    if(userScore > 4 || compScore > 4) {
+        moves.forEach((move) => {
+            move.disabled= true;
+        })
+        restart.classList.remove('restart');
+        if(userScore > 4) {
+            roundText.textContent = `Congratulations! You won the game ${userScore} to ${compScore}!`;
+        }
+        else {
+            roundText.textContent = `Sorry! You lost the game ${userScore} to ${compScore}.`
+        }
     }
 }
 
-game();
+const moves = document.querySelectorAll('.move');
+const restart = document.querySelector('#restart')
+const container = document.querySelector('#container');
+const roundText = document.querySelector('#roundText');
+const scoreText = document.querySelector('#scoreText');
+
+moves.forEach((move) => {
+    move.addEventListener('click', () => {
+        roundText.textContent = (playRound(move.id, getComputerChoice()))
+        endGame();
+    })
+});
+restart.addEventListener('click', () => {
+    moves.forEach((move) => {
+        move.disabled = false;
+    })
+    restart.classList.add('restart');
+    scoreText.textContent = '0-0';
+    userScore = 0;
+    compScore = 0;
+    roundText.textContent = 'Click a move to start the game!';
+})
+
+container.appendChild(roundText);
+container.appendChild(scoreText);
+
+
 
